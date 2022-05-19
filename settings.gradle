@@ -1,0 +1,4 @@
+include ':PlatformSdk'
+include ':imagepicker'
+include ':app'
+rootProject.name = "PlatformDemo"
