@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hollysmart.platformsdk.adapter.AppListRvAdapter;
+import com.hollysmart.platformsdk.data.AppItem;
 import com.hollysmart.platformsdk.data.CommonData;
-import com.hollysmart.platformsdk.editmenu.FunctionItem;
 import com.hollysmart.platformsdk.eventbus.EB_Platform_Common;
 import com.hollysmart.platformsdk.interfaces.JsxInterface;
 
@@ -42,21 +42,21 @@ public class AppListFragment extends Fragment {
         rv_app.setLayoutManager(linearLayoutManager);
     }
 
-    private List<FunctionItem> appList;
+    private List<AppItem> appList;
     private AppListRvAdapter adapter;
 
     private void init() {
         EventBus.getDefault().register(this);
-        appList = (List<FunctionItem>) getArguments().getSerializable("data");
+        appList = (List<AppItem>) getArguments().getSerializable("data");
         adapter = new AppListRvAdapter(getContext(), appList, new JsxInterface.PlatformAddOrRemove() {
             @Override
-            public void onAdd(FunctionItem functionItem) {
-                EventBus.getDefault().post(new EB_Platform_Common(EB_Platform_Common.ADD, functionItem));
+            public void onAdd(AppItem appItem) {
+                EventBus.getDefault().post(new EB_Platform_Common(EB_Platform_Common.ADD, appItem));
             }
 
             @Override
-            public void onRemove(FunctionItem functionItem) {
-                EventBus.getDefault().post(new EB_Platform_Common(EB_Platform_Common.REMOVE, functionItem));
+            public void onRemove(AppItem appItem) {
+                EventBus.getDefault().post(new EB_Platform_Common(EB_Platform_Common.REMOVE, appItem));
             }
         });
         rv_app.setAdapter(adapter);
@@ -65,7 +65,7 @@ public class AppListFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void commonChange(EB_Platform_Common eb_common) {
         if (eb_common.type == EB_Platform_Common.ADD) {
-            for (FunctionItem item : appList) {
+            for (AppItem item : appList) {
                 if (item.appId.equals(eb_common.app.appId)) {
                     item.isCommon = true;
                     adapter.notifyDataSetChanged();
@@ -73,14 +73,14 @@ public class AppListFragment extends Fragment {
             }
 
         } else if (eb_common.type == EB_Platform_Common.REMOVE) {
-            for (FunctionItem item : appList) {
+            for (AppItem item : appList) {
                 if (item.appId.equals(eb_common.app.appId)) {
                     item.isCommon = false;
                     adapter.notifyDataSetChanged();
                 }
             }
         } else if (eb_common.type == EB_Platform_Common.SORT) {
-            for (FunctionItem item : appList) {
+            for (AppItem item : appList) {
                 if (CommonData.contains(eb_common.commons, item)) {
                     item.isCommon = true;
                 } else {

@@ -26,12 +26,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
 import com.hollysmart.platformsdk.adapter.AppCommonGridRVAdapter;
+import com.hollysmart.platformsdk.data.AppItem;
 import com.hollysmart.platformsdk.data.AppModel;
 import com.hollysmart.platformsdk.data.CommonData;
-import com.hollysmart.platformsdk.data.CorpBean;
+import com.hollysmart.platformsdk.data.SelectBean;
 import com.hollysmart.platformsdk.dialog.SelectListDialog;
-import com.hollysmart.platformsdk.editmenu.FunctionItem;
 import com.hollysmart.platformsdk.eventbus.EB_Platform_Common;
 import com.hollysmart.platformsdk.eventbus.EB_Platform_Refresh;
 import com.hollysmart.platformsdk.interfaces.JsxInterface;
@@ -79,7 +80,7 @@ public class NewPlatformFragment extends Fragment implements OnRefreshListener, 
     private RecyclerView rv_common;
     private MagicIndicator indicator;
     private LinearLayout ll_common_add;
-    private ImageView iv_plat;
+    private ImageView iv_platform;
 
     private void findView(View root) {
         ll_title = root.findViewById(R.id.ll_title);
@@ -105,8 +106,7 @@ public class NewPlatformFragment extends Fragment implements OnRefreshListener, 
 
         ll_common_add = root.findViewById(R.id.ll_common_add);
         ll_common_add.setOnClickListener(this::onClick);
-
-        iv_plat = root.findViewById(R.id.iv_plat);
+        iv_platform = root.findViewById(R.id.iv_platform);
     }
 
     private Animation down2upRotate;
@@ -115,7 +115,7 @@ public class NewPlatformFragment extends Fragment implements OnRefreshListener, 
     private BasePagerAdapter adapter;
     private AppCommonGridRVAdapter commonAdapter;
     private AppModel appModel;
-    private List<FunctionItem> commonApps;  //常用应用列表
+    private List<AppItem> commonApps;  //常用应用列表
     private String commonKey = "defaule";
     private JsxInterface.PlatformAppItemIF platformAppItemIF;
 
@@ -140,6 +140,30 @@ public class NewPlatformFragment extends Fragment implements OnRefreshListener, 
             refreshLayout.finishRefresh();
     }
 
+    /**
+     * 设置title筛选
+     * @param selectBeanList
+     */
+    public void setSelectTitle(List<SelectBean> selectBeanList){
+        tv_title.setText(selectBeanList.get(0).getName());
+        selectListDialog.setPopupData(selectBeanList);
+    }
+
+    /**
+     * 设置图片
+     * @param imgUrl
+     */
+    public void setPlatform(String imgUrl){
+        Glide.with(this)
+                .load(imgUrl)
+                .error(R.drawable.icon_platform)
+                .into(iv_platform);
+    }
+
+    /**
+     * 设置应用点击事件监听
+     * @param platformAppItemIF
+     */
     public void setPlatformAppItemIF(JsxInterface.PlatformAppItemIF platformAppItemIF) {
         this.platformAppItemIF = platformAppItemIF;
     }
@@ -152,7 +176,7 @@ public class NewPlatformFragment extends Fragment implements OnRefreshListener, 
         }
 
         @Override
-        public void item(CorpBean bean, int position) {
+        public void item(SelectBean bean, int position) {
             refreshLayout.autoRefresh();
         }
     };
@@ -203,14 +227,14 @@ public class NewPlatformFragment extends Fragment implements OnRefreshListener, 
         delApp(appModel.getCustomGrouping().get(0).vos, commonApps);
 
         //同步全部列表 标记常用标签
-        for (FunctionItem item : appModel.getVos()) {
+        for (AppItem item : appModel.getVos()) {
             if (CommonData.contains(commonApps, item)) {
                 item.isCommon = true;
             }
         }
         //同步所有分类列表 标记常用标签
         for (AppModel.Custom custom : appModel.getCustomGrouping()) {
-            for (FunctionItem item : custom.vos) {
+            for (AppItem item : custom.vos) {
                 if (CommonData.contains(commonApps, item)) {
                     item.isCommon = true;
                 }
@@ -227,9 +251,9 @@ public class NewPlatformFragment extends Fragment implements OnRefreshListener, 
      * @param appName
      */
     private void testDelData(String appName) {
-        Iterator<FunctionItem> aData = appModel.getCustomGrouping().get(0).vos.iterator();
+        Iterator<AppItem> aData = appModel.getCustomGrouping().get(0).vos.iterator();
         while (aData.hasNext()) {
-            FunctionItem item = aData.next();
+            AppItem item = aData.next();
             if (TextUtils.equals(appName, item.appName)) {
                 aData.remove();
             }
@@ -243,11 +267,11 @@ public class NewPlatformFragment extends Fragment implements OnRefreshListener, 
      * @param allApp  接口获取的全部应用
      * @param commons 本地的常用应用
      */
-    private void delApp(List<FunctionItem> allApp, List<FunctionItem> commons) {
+    private void delApp(List<AppItem> allApp, List<AppItem> commons) {
         boolean hasDel = false;
-        Iterator<FunctionItem> common = commons.iterator();
+        Iterator<AppItem> common = commons.iterator();
         while (common.hasNext()) {
-            FunctionItem item = common.next();
+            AppItem item = common.next();
             if (!CommonData.contains(allApp, item)) {
                 Mlog.d("清除了" + item.appName);
                 common.remove();
@@ -301,7 +325,7 @@ public class NewPlatformFragment extends Fragment implements OnRefreshListener, 
                 int padding = UIUtil.dip2px(context, 10);
                 simplePagerTitleView.setPadding(padding, 0, padding, 0);
                 simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-                simplePagerTitleView.setNormalColor(getContext().getResources().getColor(R.color.black));
+                simplePagerTitleView.setNormalColor(getContext().getResources().getColor(R.color.black3));
                 simplePagerTitleView.setSelectedColor(getContext().getResources().getColor(R.color.blue_color));
                 simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -345,9 +369,9 @@ public class NewPlatformFragment extends Fragment implements OnRefreshListener, 
         if (commonAdapter == null) {
             commonAdapter = new AppCommonGridRVAdapter(getContext(), commonApps, new JsxInterface.PlatFormCommonItemIF() {
                 @Override
-                public void onItem(FunctionItem functionItem) {
+                public void onItem(AppItem appItem) {
                     if (platformAppItemIF != null)
-                        platformAppItemIF.onItem(functionItem);
+                        platformAppItemIF.onItem(appItem);
                 }
 
                 @Override
@@ -372,7 +396,7 @@ public class NewPlatformFragment extends Fragment implements OnRefreshListener, 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void commonChange(EB_Platform_Common eb_common) {
         if (eb_common.type == EB_Platform_Common.ADD) {
-            for (FunctionItem item : commonApps) {
+            for (AppItem item : commonApps) {
                 //常用列表中已经有选中应用就不在添加
                 if (item.appId.equals(eb_common.app.appId)) {
                     return;
@@ -388,9 +412,9 @@ public class NewPlatformFragment extends Fragment implements OnRefreshListener, 
             //同步常用应用数据
             synchronizationCommon(eb_common.app, true);
         } else if (eb_common.type == EB_Platform_Common.REMOVE) {
-            Iterator<FunctionItem> commonApp = commonApps.iterator();
+            Iterator<AppItem> commonApp = commonApps.iterator();
             while (commonApp.hasNext()) {
-                FunctionItem item = commonApp.next();
+                AppItem item = commonApp.next();
                 if (item.appName.equals(eb_common.app.appName)) {
                     commonApp.remove();
                 }
@@ -408,7 +432,7 @@ public class NewPlatformFragment extends Fragment implements OnRefreshListener, 
             commonApps.addAll(eb_common.commons);
 
             //同步全部列表 标记常用标签
-            for (FunctionItem item : appModel.getVos()) {
+            for (AppItem item : appModel.getVos()) {
                 if (CommonData.contains(commonApps, item)) {
                     item.isCommon = true;
                 } else {
@@ -417,7 +441,7 @@ public class NewPlatformFragment extends Fragment implements OnRefreshListener, 
             }
             //同步所有分类列表 标记常用标签
             for (AppModel.Custom custom : appModel.getCustomGrouping()) {
-                for (FunctionItem item : custom.vos) {
+                for (AppItem item : custom.vos) {
                     if (CommonData.contains(commonApps, item)) {
                         item.isCommon = true;
                     } else {
@@ -438,15 +462,15 @@ public class NewPlatformFragment extends Fragment implements OnRefreshListener, 
      * @param app
      * @param isCommon
      */
-    private void synchronizationCommon(FunctionItem app, boolean isCommon) {
-        for (FunctionItem item : appModel.getVos()) {
+    private void synchronizationCommon(AppItem app, boolean isCommon) {
+        for (AppItem item : appModel.getVos()) {
             if (item.appName.equals(app.appName)) {
                 item.isCommon = isCommon;
             }
         }
 
         for (AppModel.Custom custom : appModel.getCustomGrouping()) {
-            for (FunctionItem item : custom.vos) {
+            for (AppItem item : custom.vos) {
                 if (item.appName.equals(app.appName)) {
                     item.isCommon = isCommon;
                 }

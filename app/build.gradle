@@ -40,6 +40,8 @@ dependencies {
 
     implementation project(':PlatformSdk')
 
+    //json解析
+    api "com.google.code.gson:gson:2.8.5"
     //分包
     api 'com.android.support:multidex:1.0.3'
 

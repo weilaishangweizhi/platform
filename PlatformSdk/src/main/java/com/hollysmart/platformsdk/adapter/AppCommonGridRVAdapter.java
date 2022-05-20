@@ -16,7 +16,7 @@ import com.blankj.utilcode.util.SizeUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.hollysmart.platformsdk.R;
-import com.hollysmart.platformsdk.editmenu.FunctionItem;
+import com.hollysmart.platformsdk.data.AppItem;
 import com.hollysmart.platformsdk.interfaces.JsxInterface;
 import com.hollysmart.platformsdk.views.CenterCropRoundCornerTransform;
 
@@ -25,11 +25,11 @@ import java.util.List;
 
 public class AppCommonGridRVAdapter extends RecyclerView.Adapter {
 
-    private List<FunctionItem> data;
+    private List<AppItem> data;
     private Context context;
     private JsxInterface.PlatFormCommonItemIF commonItemIF;
 
-    public AppCommonGridRVAdapter(Context context, @NonNull List<FunctionItem> data, JsxInterface.PlatFormCommonItemIF commonItemIF) {
+    public AppCommonGridRVAdapter(Context context, @NonNull List<AppItem> data, JsxInterface.PlatFormCommonItemIF commonItemIF) {
         this.context = context;
         this.data = data;
         this.commonItemIF = commonItemIF;
@@ -54,7 +54,7 @@ public class AppCommonGridRVAdapter extends RecyclerView.Adapter {
                 }
             });
         } else {
-            final FunctionItem fi = data.get(position);
+            final AppItem fi = data.get(position);
             Glide.with(context)
                     .load(fi.logoUrl)
                     .centerCrop()

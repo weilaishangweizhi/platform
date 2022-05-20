@@ -9,7 +9,8 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.hollysmart.platformsdk.NewPlatformFragment;
 import com.hollysmart.platformsdk.data.AppModel;
-import com.hollysmart.platformsdk.editmenu.FunctionItem;
+import com.hollysmart.platformsdk.data.AppItem;
+import com.hollysmart.platformsdk.data.SelectBean;
 import com.hollysmart.platformsdk.eventbus.EB_Platform_Refresh;
 import com.hollysmart.platformsdk.interfaces.JsxInterface;
 import com.hollysmart.platformsdk.utils.Mlog;
@@ -17,6 +18,9 @@ import com.hollysmart.platformsdk.utils.Mlog;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     //工作台Fragment
@@ -36,13 +40,20 @@ public class MainActivity extends AppCompatActivity {
         //绑定工作台中应用点击事件
         fragment.setPlatformAppItemIF(new JsxInterface.PlatformAppItemIF() {
             @Override
-            public void onItem(FunctionItem functionItem) {
+            public void onItem(AppItem appItem) {
                 Mlog.d("点击了App");
-                ToastUtils.showShort("点击了:" + functionItem.appName);
+                ToastUtils.showShort("点击了:" + appItem.appName);
             }
         });
         //获取数据
-        getData();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getData();
+                getSelect();
+            }
+        }, 500);
+
     }
 
     /**
@@ -68,6 +79,23 @@ public class MainActivity extends AppCompatActivity {
         AppModel appModel = new Gson().fromJson(apps, AppModel.class);
         //获得数据后，传入工作台模块
         fragment.initAllData(isRefresh, appModel);
+    }
+
+    /**
+     * 获取标题栏数据，传入工作台
+     */
+    private void getSelect(){
+        List<SelectBean> selectBeanList = new ArrayList<>();
+        SelectBean selectBean = new SelectBean();
+        selectBean.setId("1");
+        selectBean.setName("标题一");
+        selectBeanList.add(selectBean);
+        selectBean = new SelectBean();
+        selectBean.setId("2");
+        selectBean.setName("标题二");
+        selectBeanList.add(selectBean);
+        //获得数据后，传入工作台模块
+        fragment.setSelectTitle(selectBeanList);
     }
 
     @Override

@@ -10,7 +10,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.hollysmart.platformsdk.R;
-import com.hollysmart.platformsdk.data.CorpBean;
+import com.hollysmart.platformsdk.data.SelectBean;
 import com.hollysmart.platformsdk.views.linearlayoutforlistview.LinearLayoutBaseAdapter;
 import com.hollysmart.platformsdk.views.linearlayoutforlistview.MyLinearLayoutForListView;
 
@@ -61,7 +61,7 @@ public class SelectListDialog {
         });
     }
 
-    public void setPopupData(final List<CorpBean> popupInfoList) {
+    public void setPopupData(final List<SelectBean> popupInfoList) {
         if (popupAdapter == null) {
             popupAdapter = new SelectAdapter(mContext, popupInfoList);
             ll_select.setAdapter(popupAdapter);
@@ -72,9 +72,9 @@ public class SelectListDialog {
             @Override
             public void onItemClicked(View v, Object obj, int position) {
                 if (popupIF != null) {
-                    CorpBean tagBean = popupInfoList.get(position);
+                    SelectBean tagBean = popupInfoList.get(position);
                     if (!tagBean.isSelect()) {
-                        for (CorpBean bean : popupInfoList) {
+                        for (SelectBean bean : popupInfoList) {
                             if (bean.isSelect())
                                 bean.setSelect(false);
                         }
@@ -108,25 +108,23 @@ public class SelectListDialog {
             View itemView = LayoutInflater.from(mContext).inflate(R.layout.item_select_textview, null);
             ImageView iv_select_tag = itemView.findViewById(R.id.iv_select_tag);
             TextView tv_select = itemView.findViewById(R.id.tv_select);
-            CorpBean tagBean = (CorpBean) getItem(position);
+            SelectBean tagBean = (SelectBean) getItem(position);
             if (tagBean.isSelect()) {
                 iv_select_tag.setVisibility(View.VISIBLE);
                 tv_select.setTextColor(mContext.getResources().getColor(R.color.blue_color));
             } else {
                 iv_select_tag.setVisibility(View.INVISIBLE);
-                tv_select.setTextColor(mContext.getResources().getColor(R.color.black));
+                tv_select.setTextColor(mContext.getResources().getColor(R.color.black3));
             }
-            tv_select.setText(tagBean.getCorpName());
+            tv_select.setText(tagBean.getName());
             return itemView;
         }
     }
 
     public interface PopupIF {
         void onDismissListener();
-
-        void item(CorpBean bean, int position);
+        void item(SelectBean bean, int position);
     }
-
 
 }
 

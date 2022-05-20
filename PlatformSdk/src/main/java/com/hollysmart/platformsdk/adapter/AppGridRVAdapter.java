@@ -16,7 +16,7 @@ import com.blankj.utilcode.util.SizeUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.hollysmart.platformsdk.R;
-import com.hollysmart.platformsdk.editmenu.FunctionItem;
+import com.hollysmart.platformsdk.data.AppItem;
 import com.hollysmart.platformsdk.interfaces.JsxInterface;
 import com.hollysmart.platformsdk.views.CenterCropRoundCornerTransform;
 
@@ -25,12 +25,12 @@ import java.util.List;
 
 public class AppGridRVAdapter extends RecyclerView.Adapter {
 
-    private List<FunctionItem> data = new ArrayList<>();
+    private List<AppItem> data = new ArrayList<>();
     private LayoutInflater inflater;
     private Context context;
     private JsxInterface.PlatformAppItemIF platformAppItemIF;
 
-    public AppGridRVAdapter(Context context, @NonNull List<FunctionItem> data) {
+    public AppGridRVAdapter(Context context, @NonNull List<AppItem> data) {
         this.context = context;
         if (data != null) {
             this.data = data;
@@ -51,7 +51,7 @@ public class AppGridRVAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         final AppViewHolder holder = (AppViewHolder) viewHolder;
-        final FunctionItem fi = data.get(position);
+        final AppItem fi = data.get(position);
 
         if (fi.functionType == -1) {
             setImage(fi.logoUrl, holder.iv);

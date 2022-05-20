@@ -1,7 +1,7 @@
-package com.hollysmart.platformsdk.editmenu;
+package com.hollysmart.platformsdk.data;
 import java.io.Serializable;
 
-public class FunctionItem implements Serializable {
+public class AppItem implements Serializable {
 
     public static final String MODEL_H5 = "app_classify_00";        //H5应用
     public static final String MODEL_WX = "app_classify_01";        //微信小程序

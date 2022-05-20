@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 
 
 import com.hollysmart.platformsdk.PlatformSdk;
-import com.hollysmart.platformsdk.editmenu.FunctionItem;
 import com.hollysmart.platformsdk.utils.ACache;
 
 import java.io.Serializable;
@@ -16,18 +15,18 @@ public class CommonData {
 
     public static String CACHE_COMMON = "commonData";
 
-    public static List<FunctionItem> getCommon(String key) {
-        List<FunctionItem> commons = new ArrayList<>();
+    public static List<AppItem> getCommon(String key) {
+        List<AppItem> commons = new ArrayList<>();
         Object object = ACache.get(PlatformSdk.getInstance().getApplication(), CACHE_COMMON)
                 .getAsObject(CACHE_COMMON + key);
 
         if (object != null) {
-            commons = (List<FunctionItem>) object;
+            commons = (List<AppItem>) object;
         }
         return commons;
     }
 
-    public static void saveCommon(String key, List<FunctionItem> commons) {
+    public static void saveCommon(String key, List<AppItem> commons) {
         ACache.get(PlatformSdk.getInstance().getApplication(), CACHE_COMMON)
                 .put(CACHE_COMMON + key, (Serializable) commons);
     }
@@ -49,8 +48,8 @@ public class CommonData {
      * @param app
      * @return
      */
-    public static boolean contains(List<FunctionItem> list, FunctionItem app) {
-        for (FunctionItem item : list) {
+    public static boolean contains(List<AppItem> list, AppItem app) {
+        for (AppItem item : list) {
             if (item.appName.equals(app.appName)) {
                 return true;
             }

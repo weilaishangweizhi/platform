@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.SizeUtils;
 import com.hollysmart.platformsdk.adapter.CommonSettingRvAdapter;
-import com.hollysmart.platformsdk.editmenu.FunctionItem;
+import com.hollysmart.platformsdk.data.AppItem;
 import com.hollysmart.platformsdk.eventbus.EB_Platform_Common;
 import com.hollysmart.platformsdk.style.CaiActivity;
 import com.yanzhenjie.recyclerview.OnItemClickListener;
@@ -47,11 +47,11 @@ public class CommonSettingActivity extends CaiActivity {
         rv_common.setLayoutManager(linearLayoutManager);
     }
 
-    private List<FunctionItem> commonData;
+    private List<AppItem> commonData;
     private CommonSettingRvAdapter adapter;
     @Override
     public void init() {
-        commonData = (List<FunctionItem>) getIntent().getSerializableExtra("commons");
+        commonData = (List<AppItem>) getIntent().getSerializableExtra("commons");
         adapter = new CommonSettingRvAdapter(this, commonData);
         rv_common.setSwipeMenuCreator(menuCreator);
         rv_common.setOnItemMenuClickListener(mItemMenuClickListener);

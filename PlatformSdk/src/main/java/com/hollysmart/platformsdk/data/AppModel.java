@@ -1,20 +1,18 @@
 package com.hollysmart.platformsdk.data;
 
 
-import com.hollysmart.platformsdk.editmenu.FunctionItem;
-
 import java.io.Serializable;
 import java.util.List;
 
 public class AppModel implements Serializable {
-    private List<FunctionItem> vos;
+    private List<AppItem> vos;
     private List<Custom> customGrouping;
 
-    public List<FunctionItem> getVos() {
+    public List<AppItem> getVos() {
         return vos;
     }
 
-    public void setVos(List<FunctionItem> vos) {
+    public void setVos(List<AppItem> vos) {
         this.vos = vos;
     }
 
@@ -29,6 +27,6 @@ public class AppModel implements Serializable {
     public class Custom implements Serializable {
         public String id;
         public String name;
-        public List<FunctionItem> vos;
+        public List<AppItem> vos;
     }
 }

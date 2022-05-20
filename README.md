@@ -43,13 +43,13 @@ allprojects {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frameLayout, fragment)
                 .commit();
-        
+
         //绑定工作台中应用点击事件
         fragment.setPlatformAppItemIF(new JsxInterface.PlatformAppItemIF() {
             @Override
-            public void onItem(FunctionItem functionItem) {
+            public void onItem(FunctionItem appItem) {
                 Mlog.d("点击了App");
-                ToastUtils.showShort("点击了:" + functionItem.appName);
+                ToastUtils.showShort("点击了:" + appItem.appName);
             }
         });
         //获取数据
@@ -81,6 +81,23 @@ allprojects {
         fragment.initAllData(isRefresh, appModel);
     }
 
+      /**
+     * 获取标题栏数据，传入工作台
+     */
+    private void getSelect(){
+        List<SelectBean> selectBeanList = new ArrayList<>();
+        SelectBean selectBean = new SelectBean();
+        selectBean.setId("1");
+        selectBean.setName("标题一");
+        selectBeanList.add(selectBean);
+        selectBean = new SelectBean();
+        selectBean.setId("2");
+        selectBean.setName("标题二");
+        selectBeanList.add(selectBean);
+        //获得数据后，传入工作台模块
+        fragment.setSelectTitle(selectBeanList);
+    }
+  
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -117,8 +134,6 @@ allprojects {
             "" +
             "        ]" +
             "    }";
-  
-  
 ```
 
 activity_main.xml

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.hollysmart.platformsdk.adapter.AppGridRVAdapter;
-import com.hollysmart.platformsdk.editmenu.FunctionItem;
+import com.hollysmart.platformsdk.data.AppItem;
 import com.hollysmart.platformsdk.interfaces.JsxInterface;
 import java.util.List;
 
@@ -34,12 +34,12 @@ public class AppGridFragment extends Fragment {
         rv_app.setLayoutManager(gridLayoutManager);
     }
 
-    private List<FunctionItem> appList;
+    private List<AppItem> appList;
     private AppGridRVAdapter adapter;
     private JsxInterface.PlatformAppItemIF platformAppItemIF;
 
     private void init() {
-        appList = (List<FunctionItem>) getArguments().getSerializable("data");
+        appList = (List<AppItem>) getArguments().getSerializable("data");
         adapter = new AppGridRVAdapter(getContext(), appList);
         adapter.setPlatformAppItemIF(platformAppItemIF);
         rv_app.setAdapter(adapter);

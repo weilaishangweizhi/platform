@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.hollysmart.platformsdk.R;
-import com.hollysmart.platformsdk.editmenu.FunctionItem;
+import com.hollysmart.platformsdk.data.AppItem;
 import com.hollysmart.platformsdk.views.CenterCropRoundCornerTransform;
 
 import java.util.ArrayList;
@@ -21,11 +21,11 @@ import java.util.List;
 
 public class CommonRvAdapter extends RecyclerView.Adapter {
 
-    private List<FunctionItem> data = new ArrayList<>();
+    private List<AppItem> data = new ArrayList<>();
     private LayoutInflater inflater;
     private Context context;
 
-    public CommonRvAdapter(Context context, @NonNull List<FunctionItem> data) {
+    public CommonRvAdapter(Context context, @NonNull List<AppItem> data) {
         this.context = context;
         if (data != null) {
             this.data = data;
@@ -42,7 +42,7 @@ public class CommonRvAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         final AppViewHolder holder = (AppViewHolder) viewHolder;
-        final FunctionItem fi = data.get(position);
+        final AppItem fi = data.get(position);
         Glide.with(context)
                 .load(fi.logoUrl)
                 .centerCrop()

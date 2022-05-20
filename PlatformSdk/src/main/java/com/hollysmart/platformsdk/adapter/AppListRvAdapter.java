@@ -14,7 +14,7 @@ import com.blankj.utilcode.util.SizeUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.hollysmart.platformsdk.R;
-import com.hollysmart.platformsdk.editmenu.FunctionItem;
+import com.hollysmart.platformsdk.data.AppItem;
 import com.hollysmart.platformsdk.interfaces.JsxInterface;
 import com.hollysmart.platformsdk.views.CenterCropRoundCornerTransform;
 
@@ -24,12 +24,12 @@ import java.util.List;
 
 public class AppListRvAdapter extends RecyclerView.Adapter {
 
-    private List<FunctionItem> data = new ArrayList<>();
+    private List<AppItem> data = new ArrayList<>();
     private LayoutInflater inflater;
     private Context context;
     private JsxInterface.PlatformAddOrRemove addOrRemove;
 
-    public AppListRvAdapter(Context context, @NonNull List<FunctionItem> data, JsxInterface.PlatformAddOrRemove addOrRemove) {
+    public AppListRvAdapter(Context context, @NonNull List<AppItem> data, JsxInterface.PlatformAddOrRemove addOrRemove) {
         this.context = context;
         if (data != null) {
             this.data = data;
@@ -47,7 +47,7 @@ public class AppListRvAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         final AppViewHolder holder = (AppViewHolder) viewHolder;
-        final FunctionItem fi = data.get(position);
+        final AppItem fi = data.get(position);
         Glide
                 .with(context)
                 .load(fi.logoUrl)

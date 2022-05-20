@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.hollysmart.platformsdk.adapter.CommonRvAdapter;
+import com.hollysmart.platformsdk.data.AppItem;
 import com.hollysmart.platformsdk.data.AppModel;
-import com.hollysmart.platformsdk.editmenu.FunctionItem;
 import com.hollysmart.platformsdk.eventbus.EB_Platform_Common;
 import com.hollysmart.platformsdk.style.CaiActivity;
 import com.hollysmart.platformsdk.views.indicator.ScaleTransitionPagerTitleView;
@@ -71,7 +71,7 @@ public class CommonAddActivity extends CaiActivity{
         rv_common.setLayoutManager(linearLayoutManager);
     }
 
-    private List<FunctionItem> commonData;
+    private List<AppItem> commonData;
     private AppModel appModel;
     private BasePagerAdapter adapter;
     private CommonRvAdapter commonRvAdapter;
@@ -79,7 +79,7 @@ public class CommonAddActivity extends CaiActivity{
     @Override
     public void init() {
         EventBus.getDefault().register(this);
-        commonData = (List<FunctionItem>) getIntent().getSerializableExtra("commons");
+        commonData = (List<AppItem>) getIntent().getSerializableExtra("commons");
         commonRvAdapter = new CommonRvAdapter(this, commonData);
         rv_common.setAdapter(commonRvAdapter);
         tv_num.setText(String.format("已添加(%d)", commonData.size()));
@@ -113,7 +113,7 @@ public class CommonAddActivity extends CaiActivity{
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void commonChange(EB_Platform_Common common) {
         if (common.type == EB_Platform_Common.ADD) {
-            for (FunctionItem item : commonData) {
+            for (AppItem item : commonData) {
                 //常用列表中已经有选中应用就不在添加
                 if (item.appId.equals(common.app.appId)) {
                     return;
@@ -121,9 +121,9 @@ public class CommonAddActivity extends CaiActivity{
             }
             commonData.add(common.app);
         } else if (common.type == EB_Platform_Common.REMOVE) {
-            Iterator<FunctionItem> commonApp = commonData.iterator();
+            Iterator<AppItem> commonApp = commonData.iterator();
             while (commonApp.hasNext()) {
-                FunctionItem item = commonApp.next();
+                AppItem item = commonApp.next();
                 if (item.appName.equals(common.app.appName)) {
                     commonApp.remove();
                 }
@@ -175,7 +175,7 @@ public class CommonAddActivity extends CaiActivity{
                 int padding = UIUtil.dip2px(context, 10);
                 simplePagerTitleView.setPadding(padding, 0, padding, 0);
                 simplePagerTitleView.setTextSize(15);
-                simplePagerTitleView.setNormalColor(getResources().getColor(R.color.black));
+                simplePagerTitleView.setNormalColor(getResources().getColor(R.color.black3));
                 simplePagerTitleView.setSelectedColor(getResources().getColor(R.color.blue_color));
                 simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
