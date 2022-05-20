@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 getData();
             }
-        }, 2000);
+        }, 1000);
     }
 
     private void getData() {

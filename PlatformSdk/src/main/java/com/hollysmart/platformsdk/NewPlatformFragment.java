@@ -37,6 +37,7 @@ import com.hollysmart.platformsdk.eventbus.EB_Platform_Refresh;
 import com.hollysmart.platformsdk.interfaces.JsxInterface;
 import com.hollysmart.platformsdk.utils.Mlog;
 import com.hollysmart.platformsdk.views.indicator.ScaleTransitionPagerTitleView;
+import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
@@ -92,7 +93,8 @@ public class NewPlatformFragment extends Fragment implements OnRefreshListener, 
         refreshLayout.setEnableRefresh(true);
         refreshLayout.setEnableLoadMore(false);
         refreshLayout.setEnableHeaderTranslationContent(true);//是否下拉Header的时候向下平移列表或者内容
-        refreshLayout.setEnableFooterTranslationContent(true);//是否上拉Footer的时候向上平移列表或者内容
+        refreshLayout.setEnableFooterTranslationContent(false);//是否上拉Footer的时候向上平移列表或者内容
+        refreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));
         refreshLayout.setOnRefreshListener(this);
 
         rv_common = root.findViewById(R.id.rv_common);
