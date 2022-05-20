@@ -39,6 +39,10 @@ public class CommonSettingActivity extends CaiActivity {
     @Override
     public void findView() {
         findViewById(R.id.iv_back).setOnClickListener(this);
+        TextView tv_right = findViewById(R.id.tv_right);
+        tv_right.setText("完成");
+        tv_right.setVisibility(View.VISIBLE);
+        tv_right.setOnClickListener(this);
         TextView tv_title = findViewById(R.id.tv_title);
         tv_title.setText("工作台设置");
         rv_common = findViewById(R.id.rv_common);

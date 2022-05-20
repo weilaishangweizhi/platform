@@ -6,8 +6,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <include layout="@layout/view_title_fanhui"/>
-
+    <include layout="@layout/view_title_fanhui" />
 
     <com.yanzhenjie.recyclerview.SwipeRecyclerView
         android:id="@+id/rv_common"

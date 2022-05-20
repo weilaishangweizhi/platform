@@ -29,7 +29,7 @@
             android:layout_toRightOf="@+id/iv_back"
             android:textStyle="bold"
             android:layout_marginStart="8dp"
-            android:textColor="@color/black"
+            android:textColor="@color/black3"
             android:singleLine="true"
             android:maxEms="13"
             android:ellipsize="end"/>
