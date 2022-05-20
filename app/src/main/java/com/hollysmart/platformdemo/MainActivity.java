@@ -19,9 +19,10 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 public class MainActivity extends AppCompatActivity {
+    //工作台Fragment
     private NewPlatformFragment fragment;
+    //判断是否是刷新操作
     private boolean isRefresh;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frameLayout, fragment)
                 .commit();
-        refresh(null);
+
+        //绑定工作台中应用点击事件
         fragment.setPlatformAppItemIF(new JsxInterface.PlatformAppItemIF() {
             @Override
             public void onItem(FunctionItem functionItem) {
@@ -39,8 +41,14 @@ public class MainActivity extends AppCompatActivity {
                 ToastUtils.showShort("点击了:" + functionItem.appName);
             }
         });
+        //获取数据
+        getData();
     }
 
+    /**
+     * 接收刷新事件
+     * @param refresh
+     */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void refresh(EB_Platform_Refresh refresh) {
         isRefresh = true;
@@ -52,8 +60,13 @@ public class MainActivity extends AppCompatActivity {
         }, 1000);
     }
 
+    /**
+     * 获取数据，传入工作台模块中
+     */
     private void getData() {
+        //此处是模拟数据，应该调用接口获取
         AppModel appModel = new Gson().fromJson(apps, AppModel.class);
+        //获得数据后，传入工作台模块
         fragment.initAllData(isRefresh, appModel);
     }
 
@@ -63,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
     }
 
+
+    //工作台数据模型，数据模型不能改变。
     private String apps = "{" +
             "        \"customGrouping\": [" +
             "            {" +
@@ -637,4 +652,7 @@ public class MainActivity extends AppCompatActivity {
             "        \"vos\": []" +
             "    }";
 
+    
+    
+    
 }
