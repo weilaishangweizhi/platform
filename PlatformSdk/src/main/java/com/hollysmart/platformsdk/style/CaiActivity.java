@@ -9,6 +9,8 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import butterknife.ButterKnife;
+
 
 /**
  * @author cai
@@ -23,6 +25,7 @@ public abstract class CaiActivity extends AppCompatActivity implements View.OnCl
 		super.onCreate(savedInstanceState);
 		mContext = this;
 		setContentView(layoutResID());
+		ButterKnife.bind(this);
 		findView();
 		init();
 	}

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,13 +40,19 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
-public class CommonAddActivity extends CaiActivity{
+import butterknife.BindView;
+import butterknife.OnClick;
 
-    private LinearLayout ll_setting;
-    private TextView tv_num;
-    private RecyclerView rv_common;
-    private MagicIndicator indicator;
-    private ViewPager vp_data;
+public class CommonAddActivity extends CaiActivity {
+
+    @BindView(R2.id.tv_num)
+    TextView tv_num;
+    @BindView(R2.id.rv_common)
+    RecyclerView rv_common;
+    @BindView(R2.id.indicator)
+    MagicIndicator indicator;
+    @BindView(R2.id.vp_data)
+    ViewPager vp_data;
 
     @Override
     public int layoutResID() {
@@ -56,15 +61,8 @@ public class CommonAddActivity extends CaiActivity{
 
     @Override
     public void findView() {
-        findViewById(R.id.iv_back).setOnClickListener(this);
         TextView tv_title = findViewById(R.id.tv_title);
         tv_title.setText("添加常用");
-        ll_setting = findViewById(R.id.ll_setting);
-        ll_setting.setOnClickListener(this);
-        tv_num = findViewById(R.id.tv_num);
-        rv_common = findViewById(R.id.rv_common);
-        indicator = findViewById(R.id.indicator);
-        vp_data = findViewById(R.id.vp_data);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -98,16 +96,20 @@ public class CommonAddActivity extends CaiActivity{
     }
 
 
+    @OnClick(R2.id.iv_back)
+    public void backOnClick(View view) {
+        finish();
+    }
+
+    @OnClick(R2.id.ll_setting)
+    public void settingOnClick(View view) {
+        Intent intent = new Intent(this, CommonSettingActivity.class);
+        intent.putExtra("commons", (Serializable) commonData);
+        startActivity(intent);
+    }
+
     @Override
     public void onClick(View view) {
-        int id = view.getId();
-        if ( id == R.id.iv_back){
-            finish();
-        }else if (id == R.id.ll_setting){
-            Intent intent = new Intent(this, CommonSettingActivity.class);
-            intent.putExtra("commons", (Serializable) commonData);
-            startActivity(intent);
-        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

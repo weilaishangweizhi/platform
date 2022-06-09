@@ -50,5 +50,7 @@ dependencies {
     api  'io.github.scwang90:refresh-header-classics:2.0.5'    //经典刷新头
     api  'io.github.scwang90:refresh-header-radar:2.0.5'       //雷达刷新头
 
-
+    api 'com.jakewharton:butterknife:10.2.3'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
 }
+apply plugin: 'com.jakewharton.butterknife'
